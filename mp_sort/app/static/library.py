@@ -118,10 +118,42 @@ def sortnumber2():
 
 	# Your code should start from here
 	# store the final string to the variable array_str
-	pass
+	#Converting String into a list for sorting
+	value = value.replace(" ","") 				#Remove any possible space that user type
+	array = list(value.split(","))				#Split them based on , and convert them to list for sorting
 
-	array_str = None
 
+	for i in range(len(array)): #Issue
+		
+		try:
+			array[i] = float(array[i])
+		except ValueError:
+			window.alert("Invalid Symbols. Please key in numbers and seperate it by comma!") 	#Exit when there is non-number
+			return 
+		
+		if array[i] != array[i]:
+			window.alert("Invalid Symbols. Please key in numbers and seperate it by comma!")
+			return
+		
+	#Insertion Sort
+	n = len(array)
+	for outer_index in range (1,n):
+		inner_index = outer_index
+		temp = array[inner_index]
+		while (inner_index>0 and temp < array[inner_index-1]):
+			array[inner_index] = array[inner_index-1]
+			inner_index= inner_index - 1
+		array[inner_index] = temp
+
+
+	#Convert List into String
+	array_str = ""
+	for i in range(n):
+		array_str += array[i]
+		if (i+1) != n:
+			array_str += ","
+	
+	
 	document.getElementById("sorted").innerHTML = array_str
 
 
