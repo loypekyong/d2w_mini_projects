@@ -54,7 +54,45 @@ class Stack:
   pass
 
 class EvaluateExpression:
-  pass
+
+  valid_char = '0123456789+-*/() '
+  def __init__(self, string=""):
+    self.string = string
+    pass
+
+  @property
+  def expression(self):
+    return self.string
+    pass
+
+  @expression.setter
+  def expression(self, new_expr):
+    self.string = new_expr
+    for i in new_expr:
+      if(i in self.valid_char):
+        continue
+      else:
+        self.string = ""
+        break
+
+    pass
+  
+  operator_str = "+-*/()"
+
+  def insert_space(self):
+
+      return_str = ""
+      
+      for i in self.string:
+        if i in self.operator_str:
+          return_str += " " + i + " "
+        else:
+          return_str += i
+
+      return return_str
+
+
+      pass
 
 
 def get_smallest_three(challenge):
