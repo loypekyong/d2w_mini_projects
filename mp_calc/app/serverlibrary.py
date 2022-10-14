@@ -87,7 +87,7 @@ class Stack:
   
 
 class EvaluateExpression:
-      # from the previous parts
+    # from the previous parts
   valid_char = '0123456789+-*/() '
   operator_str ='+-*/()'
   operand_str= '+-*/'
@@ -160,16 +160,38 @@ class EvaluateExpression:
     result = int(operand_stack.peek())
     return result 
 
+  def is_float(self,n):
+    try:
+        float(n)
+        return True
+    except ValueError:
+        return False
+    
   def evaluate(self):
     operand_stack = Stack()
     operator_stack = Stack()
     expression = self.insert_space()
-    tokens = expression.split()
     result = 0
+    tokens = expression.split()
+    for i in range(len(tokens)): #For numbers that is more than 1 digit to be treated as one number
+        if (tokens[i] in self.num_str):
+            j = i +1
+            #print(j)
+            lst =[]
+            while (j < len(tokens)) and tokens[j] in self.num_str:
+                tokens[i] = tokens[i]+tokens[j]
+                #print(tokens[i])
+                lst.append(j)
+                j += 1
+            for n in lst:
+                tokens.pop(n)
+            #print (len(tokens))
+    #print (tokens)
+   
     
     for n in tokens: 
-        #print(n)
-        if n in self.num_str:
+        #print(n, type(n))
+        if self.is_float(n):
             operand_stack.push(n)
             #print (" if, push\n")
         elif n == '(':
@@ -182,7 +204,10 @@ class EvaluateExpression:
             while (operator_stack.peek() == '*' or operator_stack.peek() == '/'): 
                 result = self.process_operator(operand_stack, operator_stack)
                 #print ("2nd elif,shifted")
+            if (n == "+" or n=="-") and operand_stack.size >1:
+                self.process_operator(operand_stack, operator_stack)
             operator_stack.push(n)
+           
             #print("2nd elif, push\n")
         
         elif n == ')':
